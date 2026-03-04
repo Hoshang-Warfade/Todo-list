@@ -3,8 +3,11 @@ from django.http import HttpResponse
 from todo.models import Task
 
 def home(request):
-    task=Task.objects.all().order_by('-modified_at')
+    incomplete_tasks=Task.objects.all().filter(is_completed=False).order_by('-modified_at')
+    complete_tasks=Task.objects.all().filter(is_completed=True).order_by('-modified_at')
+
     context={
-        'tasks':task
+        'incomplete_tasks':incomplete_tasks,
+        'complete_tasks':complete_tasks
     }
     return render(request, 'home.html', context)
