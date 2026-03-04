@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from todo.models import Task
 
 def home(request):
-    return render(request, 'home.html')
+    task=Task.objects.all().order_by('-modified_at')
+    context={
+        'tasks':task
+    }
+    return render(request, 'home.html', context)
